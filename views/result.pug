@@ -1,0 +1,13 @@
+extends index.pug
+        
+block result
+    h1.header= "Wheather in " + list.name
+    div.results
+        .result
+            ul
+                li.list= list.weather
+                li.list= "Temp: " + list.temp + " degrees"
+                li.list= "Wind: " + list.wind + " mps"
+
+
+                

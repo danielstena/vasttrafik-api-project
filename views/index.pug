@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title Weather
+        script(src='http://code.jquery.com/jquery.js')
+        style
+            include style.css
+    body
+         div.results
+            .result
+                //- h1.header= smorslott_mot_tuve.DepartureBoard.Departure[0].name + " @ " + smorslott_mot_tuve.DepartureBoard.Departure[0].stop
+
+            .result
+                ul
+
+                    h1.list= "Mot: " +  json_sm_mot_tuve[0].direction
+                    li.list= "Första: " + json_sm_mot_tuve[0].time + " mot " +  json_sm_mot_tuve[0].direction
+                    br
+                    li.list= "Andra: " + json_sm_mot_tuve[1].time + " mot " + json_sm_mot_tuve[1].direction
+                    br
+                    li.list= "Tredje: " + json_sm_mot_tuve[2].time + " mot " + json_sm_mot_tuve[2].direction
+                    br
+                    li.list= "fjärde: " + json_sm_mot_tuve[3].time+ " mot " + json_sm_mot_tuve[3].direction
+
+
+        
+
+
+                     
+
+
+
+            
+
+
