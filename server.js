@@ -20,6 +20,7 @@
 
 // -- STARTAR SERVER -- //
 
+app.use(express.static("public"))
 
 //------------------------------------------------------------------//
 
@@ -29,19 +30,20 @@
 
         app.use(bodyParser.urlencoded({extended: true}));
 
-    // -- För PUG -- //
-
-//------------------------------------------------------------------ //
-
-// -- VARIABLES -- //
-
-    const key = '27ZODCx9Dwf71auxcafiA2va3bAa';
-    const secret = 'RzHR_Nr9Q6CndGJs9eCSsfgqIVIa';
-    var deviceId = "unit_one";
-    var callback;
-    var smorslott_mot_ostra;
-    var smorslott_mot_tuve;
-    var id;
+        // -- För PUG -- //
+        
+        //------------------------------------------------------------------ //
+        
+        // -- VARIABLES -- //
+        
+        const key = '27ZODCx9Dwf71auxcafiA2va3bAa';
+        const secret = 'RzHR_Nr9Q6CndGJs9eCSsfgqIVIa';
+        var deviceId = "unit_one";
+        var callback;
+        var smorslott_mot_ostra;
+        var json_sm_mot_ostra = [];
+        var json_sm_mot_tuve = [];
+        var id;
     //Encryptation of key and secret
     var code = Base64.encode(key + ":" + secret);
 
@@ -57,12 +59,12 @@ use_token = async function(token){
     var date = d.toLocaleDateString();
     var hours = d.getHours();
     var minutes = d.getMinutes();
+    const access_token = token;
     
     // console.log(hours + ":" + minutes)
     const url_sm_tuve = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014006100001&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014007100001&format=json";
     const url_sm_ostra = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014006100001&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014007880005&format=json";
     
-    const access_token = token;
 
     const headers = {
         // 'Content-Type': 'application/x-www-form-urlencoded',
@@ -74,44 +76,26 @@ use_token = async function(token){
         await request(url_sm_tuve, { headers },(err, res, body) => {
             if (err) { return console.log(err); }
 
-        smorslott_mot_tuve = JSON.parse(body);
-            
-            
-        var json_sm_mot_tuve = [];
-        for (var i = 0; i < 20; i++) { 
-            json_sm_mot_tuve.push({time: smorslott_mot_tuve.DepartureBoard.Departure[i].time, direction: smorslott_mot_tuve.DepartureBoard.Departure[i].direction});
-        }
-            
-        console.log(json_sm_mot_tuve)
-            app.get('/', (req, res) => res.render('index',{json_sm_mot_tuve}))
-            // app.get('/', (req, res) => res.send(lista))
+            smorslott_mot_tuve = JSON.parse(body);
+
+            for (var i = 0; i < 20; i++) { 
+                json_sm_mot_tuve.push({time: smorslott_mot_tuve.DepartureBoard.Departure[i].time, direction: smorslott_mot_tuve.DepartureBoard.Departure[i].direction});
+            }
         }); 
-
-
+    
     // -- SMÖRSLOTTSGATAN/MOT ÖSTRA SJUKHUSET -- //
     
-        // await request(url_sm_ostra, { headers },(err, res, body) => {
-        // if (err) { return console.log(err); }
-        // smorslott_mot_ostra = JSON.parse(body);
-        // // console.log(smorslott.DepartureBoard.Departure[0])
-
-        // var json_sm_mot_ostra = [];
-        // for (var i = 0; i < 20; i++) { 
-        //     json_sm_mot_ostra.push({time: smorslott_mot_ostra.DepartureBoard.Departure[i].time, departure: smorslott_mot_ostra.DepartureBoard.Departure[i].direction});
-        // }
+        await request(url_sm_ostra, { headers },(err, res, body) => {
+            if (err) { return console.log(err); }
+            smorslott_mot_ostra = JSON.parse(body);
+            // console.log(smorslott.DepartureBoard.Departure[0])
             
-        // console.log(json_sm_mot_ostra);
-
-        // app.get('/', (req, res) => res.render('index',{json_sm_mot_ostra}))
-        // // app.get('/', (req, res) => res.send(lista))
-        // }); 
-
-    //   lista1;
-    //   lista2;
-    //   lista3;
-    //   json
-      
-}
+            for (var i = 0; i < 20; i++) { 
+                json_sm_mot_ostra.push({name: smorslott_mot_ostra.DepartureBoard.Departure[0].name, time: smorslott_mot_ostra.DepartureBoard.Departure[i].time, direction: smorslott_mot_ostra.DepartureBoard.Departure[i].direction});
+            }         
+        });  app.get('/test', (req, res) => res.send(json_sm_mot_ostra))
+            app.get('/', (req, res) => res.render('index',{json_sm_mot_tuve, json_sm_mot_ostra}))
+}   
 
 function get_token(code, deviceId, callback) {
     deviceId = deviceId || new Date().getTime();
@@ -128,7 +112,7 @@ function get_token(code, deviceId, callback) {
             }
             return Promise.reject(res.error);
         } else {
-            let token = res.body.access_token;
+            token = res.body.access_token;
             let expires  = res.body.expires_in;
 
             if (callback) {
@@ -142,9 +126,9 @@ function get_token(code, deviceId, callback) {
 };
 
 setInterval(function(){
-}, 3000);
+    get_token(code, deviceId, callback);
+}, 10000);
 
-get_token(code, deviceId, callback);
 
 
 
