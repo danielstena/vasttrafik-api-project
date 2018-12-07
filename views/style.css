@@ -23,7 +23,7 @@ body{
 .container{
     display: flex;
     flex-direction: column;
-    width: 80%;
+    width: 75%;
     margin:auto;
     margin-top:0; 
 }
@@ -51,5 +51,14 @@ body{
 }
 .stop{
     width:350px;
+}
+.direction{
+    width:290px;
+}
+.track{
+    width: 110px;
+}
+.smorslott{
+    background-color: darkgray;
 }
 

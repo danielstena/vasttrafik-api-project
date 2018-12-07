@@ -14,25 +14,20 @@ $(document).ready(function(){
 update(total_tid);  
 
 function update(total_tid){
-    $.ajax({
-        type: "GET",
-        url: '/resor',
-        dataType: 'json',
-        data: {"data":"check"},
-        success: function(data){
-
-            $("#time").html("<h1>"+ total_tid + "</h1>");
-            
-            $("#1").append("<div class='cell stop'>" + data.stop.slice(0,15) + " </div><div class='cell bus'>" + data.name.slice(5,7) + "</div><div class='cell' id='first'>" + data.first_time + " min</div><div class='cell' id=''second>" + data.second_time + " min</div><div class='cell' id='direction'>"+ data.direction+"</div><div class='cell' id='track'>"+ data.track+"</div>");
-
-            // $(".container").append("<div class='row'><div class='cell_buss'>" + data[0].mot_tuve[0].name + "</div><div class='cell'>" + data[0].mot_ostra[0].time + "</div><div class='cell'>"+ data[0].tuve[0].direction+"</div></div>");
-
-
-            // $(".container").append("<div class='row'><div class='cell_buss'>" + mall(2,"name") + "</div><div class='cell'>" + mall(2,"time") + "</div><div class='cell'>" + mall(2,"direction") + "</div></div>");
-
-            // $(".container").append("<div class='row'><div class='cell_buss'>" + mall(3,"name") + "</div><div class='cell'>" + mall(3,"time") + "</div><div class='cell'>" + mall(3,"direction") + "</div></div>");
-            
-                    
+    $.ajax(
+        {
+            type: "GET",
+            url: '/resor',
+            dataType: 'json',
+            data: {"data":"check"},
+            success: function(data)
+            {
+                $("#time").html("<h1>"+ total_tid + "</h1>");
+                
+                $("#1").append("<div class='cell stop'>" + data.mot_tuve.stop.slice(0,15) + " </div><div class='cell bus'>" + data.mot_tuve.name.slice(5,7) + "</div><div class='cell' id='first'>" + data.mot_tuve.first_time + " min</div><div class='cell second'>" + data.mot_tuve.second_time + " min</div><div class='cell direction'>"+ data.mot_tuve.direction+"</div><div class='cell track'>"+ data.mot_tuve.track+"</div>");
+                $("#2").append("<div class='cell stop'>" + data.mot_ostra.stop.slice(0,15) + " </div><div class='cell bus'>" + data.mot_ostra.name.slice(5,7) + "</div><div class='cell' id='first'>" + data.mot_ostra.first_time + " min</div><div class='cell second'>" + data.mot_ostra.second_time + " min</div><div class='cell direction'>"+ data.mot_ostra.direction+"</div><div class='cell track'>"+ data.mot_ostra.track+"</div>");
+                $("#3").append("<div class='cell stop'>" + data.mot_amhult.stop.slice(0,9) + " </div><div class='cell bus '>" + data.mot_amhult.name.slice(0,5) + "</div><div class='cell' id='first'>" + data.mot_amhult.first_time + " min</div><div class='cell second'>" + data.mot_amhult.second_time + " min</div><div class='cell direction'>"+ data.mot_amhult.direction+"</div><div class='cell track'>"+ data.mot_amhult.track+"</div>");
+                $("#4").append("<div class='cell stop'>" + data.mot_vallhamra.stop.slice(0,9) + " </div><div class='cell bus'>" + data.mot_vallhamra.name.slice(0,5) + "</div><div class='cell' id='first'>" + data.mot_vallhamra.first_time + " min</div><div class='cell second'>" + data.mot_vallhamra.second_time + " min</div><div class='cell direction'>"+ data.mot_vallhamra.direction+"</div><div class='cell track'>"+ data.mot_vallhamra.track+"</div>");
             }
         });
     }
@@ -41,7 +36,8 @@ function update(total_tid){
         update(total_tid);  
         location.reload();
     }
-    , 30000);
+        , 30000
+    );
 
 });
 
