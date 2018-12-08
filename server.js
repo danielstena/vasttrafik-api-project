@@ -121,7 +121,7 @@ use_token = async function(token){
                     return Math.abs(Math.round(second_diff));
                 }
 
-                json_sm_mot_tuve = ({track: smorslott_mot_tuve.DepartureBoard.Departure[0].track, stop: smorslott_mot_tuve.DepartureBoard.Departure[0].stop, name: smorslott_mot_tuve.DepartureBoard.Departure[0].name, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: smorslott_mot_tuve.DepartureBoard.Departure[0].direction});
+                json_sm_mot_tuve = ({track: smorslott_mot_tuve.DepartureBoard.Departure[0].track, stop: smorslott_mot_tuve.DepartureBoard.Departure[0].stop, name: smorslott_mot_tuve.DepartureBoard.Departure[0].sname, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: smorslott_mot_tuve.DepartureBoard.Departure[0].direction});
         }); 
     
     // -- SMÖRSLOTTSGATAN/MOT ÖSTRA SJUKHUSET -- //
@@ -150,7 +150,7 @@ use_token = async function(token){
                     second_diff /= 60;
                     return Math.abs(Math.round(second_diff));
                 }
-            json_sm_mot_ostra = ({track: smorslott_mot_ostra.DepartureBoard.Departure[0].track, stop: smorslott_mot_ostra.DepartureBoard.Departure[0].stop, name: smorslott_mot_ostra.DepartureBoard.Departure[0].name, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: smorslott_mot_ostra.DepartureBoard.Departure[0].direction});  
+            json_sm_mot_ostra = ({track: smorslott_mot_ostra.DepartureBoard.Departure[0].track, stop: smorslott_mot_ostra.DepartureBoard.Departure[0].stop, name: smorslott_mot_ostra.DepartureBoard.Departure[0].sname, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: smorslott_mot_ostra.DepartureBoard.Departure[0].direction});  
         });  
 
         // -- BACKVÄGEN SVART EXPRESS MOT AMHULT -- //
@@ -181,7 +181,7 @@ use_token = async function(token){
                     second_diff /= 60;
                     return Math.abs(Math.round(second_diff));
                 }
-            json_backvagen_amhult = ({track: backvagen_mot_amhult.DepartureBoard.Departure[0].track, stop: backvagen_mot_amhult.DepartureBoard.Departure[0].stop, name: backvagen_mot_amhult.DepartureBoard.Departure[0].name, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: backvagen_mot_amhult.DepartureBoard.Departure[0].direction});  
+            json_backvagen_amhult = ({track: backvagen_mot_amhult.DepartureBoard.Departure[0].track, stop: backvagen_mot_amhult.DepartureBoard.Departure[0].stop, name: backvagen_mot_amhult.DepartureBoard.Departure[0].sname, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: backvagen_mot_amhult.DepartureBoard.Departure[0].direction});  
         });  
 
         // -- BACKVÄGEN SVART EXPRESS MOT VALLHAMRA TORG -- //
@@ -190,11 +190,21 @@ use_token = async function(token){
             if (err) { return console.log(err); }
 
             backvagen_mot_vallhamra = JSON.parse(body);
+            var svart_mot_vallhamra = [];
 
-            var api_date = backvagen_mot_vallhamra.DepartureBoard.Departure[0].date;
+            //FOR LOOP För att kolla vilken:
+            // if(backv.DepartureBoard.Departure[i].sname == SVART) //
+            var i;
+            for (i = 0; i < 20; i++) { 
+                if(backvagen_mot_vallhamra.DepartureBoard.Departure[i].sname == "SVART"){
+                    svart_mot_vallhamra.push(backvagen_mot_vallhamra.DepartureBoard.Departure[i]);
+                }
+            
+            }
+            var api_date = svart_mot_vallhamra[0].date;
 
             current_date = new Date()
-            vallhamra = get_sliced_time(backvagen_mot_vallhamra.DepartureBoard.Departure[0].time,backvagen_mot_vallhamra.DepartureBoard.Departure[1].time);
+            vallhamra = get_sliced_time(svart_mot_vallhamra[0].time,svart_mot_vallhamra[1].time);
 
             first_buss = new Date(api_date +"T"+ vallhamra.sliced_hours_first +":" + vallhamra.sliced_minutes_first + ":00");
             second_buss = new Date(api_date +"T"+ vallhamra.sliced_hours_second +":" + vallhamra.sliced_minutes_second + ":00");
@@ -212,7 +222,7 @@ use_token = async function(token){
                     second_diff /= 60;
                     return Math.abs(Math.round(second_diff));
                 }
-            json_backvagen_vallhamra = ({track: backvagen_mot_vallhamra.DepartureBoard.Departure[0].track, stop: backvagen_mot_vallhamra.DepartureBoard.Departure[0].stop, name: backvagen_mot_vallhamra.DepartureBoard.Departure[0].name, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: backvagen_mot_vallhamra.DepartureBoard.Departure[0].direction});  
+            json_backvagen_vallhamra = ({track: svart_mot_vallhamra[0].track, stop: svart_mot_vallhamra[0].stop, name: svart_mot_vallhamra[0].sname, first_time: diff_minutes_first(current_date, first_buss), second_time: diff_minutes_second(current_date, second_buss), direction: svart_mot_vallhamra[0].direction});  
             app.get('/test', (req, res) => res.send(json_backvagen_vallhamra));
         });  
 
