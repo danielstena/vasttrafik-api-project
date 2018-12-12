@@ -6,12 +6,12 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="ie=edge")
         title Västtrafik!
         script(src='http://code.jquery.com/jquery.js')
-        style
-            include style.css
+        link(rel='stylesheet', type='text/css', href='style.css')
+        link(rel='shortcut icon', href='/favicon.ico')
     body
         .header
             #logo
-                img#logo(src='https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/24910018_1167244380073565_4030214249258855679_n.jpg?_nc_cat=108&_nc_ht=scontent-arn2-1.xx&oh=df1751a9f475a84a3f5c5411f5a7a4d6&oe=5CAFAFBC')
+                img#logo(src='logo.jpg')
             #name
 
             #time
@@ -33,6 +33,7 @@ html(lang="en")
             .row#4
             .row.smorslott#1
             .row.smorslott#2
+            .row#5
         script(src="script.js")
 
 
