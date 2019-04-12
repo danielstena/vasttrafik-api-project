@@ -94,8 +94,8 @@ use_token = async function(token){
 
     const url_smorslott_17_tuve = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014006100001&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014007100001&format=json";
     const url_smorslott_17_ostra = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014006100001&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014007880005&format=json";
-    const url_backvagen_mot_amhult = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014001245003&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014001004007&format=json";
-    const url_backvagen_mot_vallhamra = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014001245004&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014013640005&format=json";
+    const url_backvagen_mot_amhult = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014001245001&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014001004007&format=json";
+    const url_backvagen_mot_vallhamra = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014001245002&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014013640005&format=json";
     const url_ostra_vagn_ett = "https://api.vasttrafik.se/bin/rest.exe/v2/departureBoard?id=9022014007880001&date=" + date + "&time=" + hours + ":" + minutes + "%3A06&direction=9022014002530002&format=json";
     
     const headers = {
